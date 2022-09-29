@@ -46,15 +46,17 @@ class AuthController extends Controller
             'tlp' => 'required',
             'status_otp' => 'nullable',
             'role' => 'nullable',
+            'gender' => 'nullable',
+            'tanggal_lahir' => 'nullable',
+            'goal' => 'nullable',
+            'tinggi_badan' => 'nullable',
+            'berat_badan' => 'nullable',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
         }
-
-        session()->put('email', $request->email);
-        $tokenjwt = session()->get('email');
-    
+   
         if ($request->role == 'Admin') {
             $role = 'Admin';
         }elseif ($request->role == 'User'){
@@ -68,11 +70,16 @@ class AuthController extends Controller
             'tlp' => $request->tlp,
             'status_otp' => 'Not Verif',
             'role' => $role,
+            'gender' => $request->gender,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'goal' => $request->goal,
+            'tinggi_badan' => $request->tinggi_badan,
+            'berat_badan' => $request->berat_badan,
         ]);
 
         return response()->json([
             'message' => 'Successfully registered',
-            'user' => $user
+            'user' => $user,
         ], 201);
     }
 

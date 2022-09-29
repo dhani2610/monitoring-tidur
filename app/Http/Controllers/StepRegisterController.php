@@ -10,25 +10,28 @@ use function PHPUnit\Framework\returnSelf;
 
 class StepRegisterController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:api', ['except' => ['login', 'register']]);
+    // }
 
-    public function guard() 
-    {
-        return Auth::guard('api');
-    }
+    // public function guard() 
+    // {
+    //     return Auth::guard('api');
+    // }
 
     public function step1(Request $request)
     {
         try {
+            // $data = User::find($this->guard()->user()->id);
+            dd(session()->get('gender'));
             $data = User::where('email',session()->get('email'))->where('gender',null)->where('tanggal_lahir',null)->first();
             $data->update([
                 'gender' => $request->gender,
                 'tanggal_lahir' => $request->tanggal_lahir
             ]);
     
+
             return response()->json([
                 'msg' => 'Berhasil Step 1',
                 'data' => $data
@@ -45,7 +48,8 @@ class StepRegisterController extends Controller
     {
         
         try {
-            $data = User::where('email',session()->get('email'))->where('goal',null)->first();
+            $data = User::find($this->guard()->user()->id);
+            // $data = User::where('email',session()->get('email'))->where('goal',null)->first();
             $data->update([
                 'goal' => $request->goal,
             ]);
@@ -67,6 +71,7 @@ class StepRegisterController extends Controller
     {
         
         try {
+            // $data = User::find($this->guard()->user()->id);
             $data = User::where('email',session()->get('email'))->where('tinggi_badan',null)->where('berat_badan',null)->first();
             $data->update([
                 'tinggi_badan' => $request->tinggi_badan,
